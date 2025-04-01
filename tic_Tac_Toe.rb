@@ -141,6 +141,33 @@ class ComputerPlayer < Player
   end
 
   def corner_trap_defense_position(opponent_marker)
-    
+    # if you respond in the center or the opposite corner, the opponent can force you to lose
+    log_debug "defending against corner start by playing adjacent"
+    # playing in an adjacent corner could also be safe, but would require more logic later on
+    opponent_position = @game.board.find_index { |marker| marker == opponent_marker }
+    safe_response = {1 => [2, 4], 3 => [2, 6], 7 => [4, 8], 9 => [6, 8] }
+    return safe_response[opponent_position].sample
+  end
+
+  def random_prioritized_position
+    log_debug "picking random position, favouring center and then corners"
+    ([5] + [1, 3, 7, 9].shuffle + [2, 4, 6, 8].shuffle).find do |pos|
+      @game.free_positions.include?(pos)
+    end
+  end
+
+  def log_debug(message)
+    puts "#{self}: #{message}" if DEBUG
+  end
+
+  def to_s
+    "Computer#{@game.current_player_id}"
   end
 end
+
+include TicTacToe
+
+Game.new(ComputerPlayer, ComputerPlayer).play
+puts
+players_with_human = [Human_player, ComputerPlayer].shuffle
+Game.new(*players_with_human).play
