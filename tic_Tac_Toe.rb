@@ -125,13 +125,13 @@ module TicTacToe
     def print_board
       col_seperator = '|'
       row_seperator = '--+---+--'
-      label_for_position = lambda{ |position| @board[position] || position }
+      label_for_position = ->(position) { @board[position] || position }
       # This code defines a lambda function that takes a position as an argument and returns the marker at that position on the board.
       # If the position is empty (nil), it returns the position number instead.
       # The label_for_position lambda function is used to display the current state of the board.
       # The print_board method uses the label_for_position lambda function to display the current state of the board.
 
-      row_for_display = lambda{|row| row.map(&label_for_position).join(col_seperator)}
+      row_for_display = lambda { |row| row.map(&label_for_position).join(col_seperator) }
       row_position = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
       rows_for_display = row_position.map(&row_for_display)
       puts rows_for_display.join("\n#{row_seperator}\n")
@@ -232,12 +232,12 @@ module TicTacToe
       log_debug 'defending against corner start by playing adjacent'
       # playing in an adjacent corner could also be safe, but would require more logic later on
       opponent_position = @game.board.find_index { |marker| marker == opponent_marker }
-      safe_response = {1 => [2, 4], 3 => [2, 6], 7 => [4, 8], 9 => [6, 8] }
-      return safe_response[opponent_position].sample
+      safe_response = { 1 => [2, 4], 3 => [2, 6], 7 => [4, 8], 9 => [6, 8] }
+      safe_response[opponent_position].sample
     end
 
     def random_prioritized_position
-      log_debug "picking random position, favouring center and then corners"
+      log_debug 'picking random position, favouring center and then corners'
       ([5] + [1, 3, 7, 9].shuffle + [2, 4, 6, 8].shuffle).find do |pos|
         @game.free_positions.include?(pos)
       end
