@@ -172,19 +172,26 @@ module TicTacToe
       'Human'
     end
   end
+  # This code defines the HumanPlayer class, which represents a human player.
 
   class ComputerPlayer < Player
     DEBUG = false
+    # Set to true to see debug messages
 
     def group_positions_by_markers(line)
       markers = line.group_positions_by { |position| @game.board[position] }
       markers.default = []
       markers
     end
+    # This code groups the positions in a line by their markers (X or O) using the group_by method.
+    # The group_positions_by_markers method takes a line (array of positions) as an argument and returns a hash where the keys are the markers and the values are arrays of positions occupied by that marker.
 
     def select_position!
       opponent_marker = @game.opponent.marker
       log_debug "opponent marker is #{opponent_marker}"
+      # This code retrieves the opponent's marker from the game object.
+      # The select_position! method is called to select a position for the computer player's marker.
+      # The opponent_marker variable is used to check for winning or blocking positions.
 
       winning_or_blocking_position = look_for_winning_or_blocking_position(opponent_marker)
       return corner_trap_defense_position if winning_or_blocking_position
@@ -195,28 +202,29 @@ module TicTacToe
     end
 
     def look_for_winning_or_blocking_position(opponent_marker)
-      for line in LINES
+      LINES.each do |line|
         markers = group_positions_by_markers(line)
         next if markers[nil].length != 1
-        if markers[self.marker].length == 2
+
+        if markers[marker].length == 2
           log_debug "winning on line #{line.join}"
           return markers[nil].first
         elsif markers[opponent_marker].length == 2
           log_debug "could block on line #{line.join}"
-          blocking_position = markers[nil].first
+          markers[nil].first
         end
       end
 
-      if blocking_position
-        log_debug "blocking at #{blocking_position}"
-        return blocking_position
-      end
+      return unless blocking_position
+
+      log_debug "blocking at #{blocking_position}"
+      blocking_position
     end
 
     def corner_trap_defense_needed?
       corner_positions = [1, 3, 7, 9]
-      opponent_chose_a_corner = corner_positions.any? { |pos| @game.board[pos] != nil }
-      return @game.turn_num == 2 && opponent_chose_a_corner
+      opponent_chose_a_corner = corner_positions.any? { |pos| !@game.board[pos].nil? }
+      @game.turn_num == 2 && opponent_chose_a_corner
     end
 
     def corner_trap_defense_position(opponent_marker)
