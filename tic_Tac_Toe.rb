@@ -72,6 +72,7 @@ module TicTacToe
       free_position.empty?
     end
     # This code checks if the board is full by checking if there are any free positions left on the board.
+
     def other_player_id
       1 - @current_player_id
     end
@@ -86,11 +87,11 @@ module TicTacToe
     # The other_player_id method is also used to switch between players during the game.
     # The switch_players! method is called after each player's turn to switch the current player to the other player.
     # This is done by updating the @current_player_id instance variable to the other player's ID.
-    # The switch_players! method is used to switch the current player after each turn.
 
     def switch_players!
       @current_player_id = other_player_id
     end
+    # The switch_players! method is used to switch the current player after each turn.
     # This code switches the current player by updating the @current_player_id instance variable to the other player's ID.
 
     def current_player
@@ -120,7 +121,6 @@ module TicTacToe
     # This is useful for determining the current player's turn and checking if the game is over.
     # The turn_num method is called after each player's move to update the turn number.
     # The turn_num method is also used to check if the game is over.
-    # The turn_num method is used to determine the current player's turn and check if the game is over.
 
     def print_board
       col_seperator = '|'
@@ -158,7 +158,11 @@ module TicTacToe
       loop do
         print "Select your #{@marker} position: "
         selection = gets.to_i
+        # This code prompts the user to select a position for their marker and reads the input from the console.
+
         return selection if @game.free_positions.include?(selection)
+
+        # This code checks if the selected position is free (not occupied by another marker).
 
         puts "Position #{selection} is not available. Try again."
       end
