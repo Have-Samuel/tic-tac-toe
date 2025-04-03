@@ -30,9 +30,9 @@ class Game
 
   def player_turn(turn)
     if turn.odd?
-      player_choice(@player_one_name, 'X')
+      player_choice(@player_one_name, 'O')
     else
-      player_choice(@player_two_name, 'O')
+      player_choice(@player_two_name, 'X')
     end
   end
 
