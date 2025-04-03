@@ -27,13 +27,9 @@ class Game
     puts "#{board[2][0]} | #{board[2][1]} | #{board[2][2]}"
     puts "\r"
   end
-
-  def player_turn(turn)
-    if turn.odd?
-      player_choice(@player_one_name, 'O')
-    else
-      player_choice(@player_two_name, 'X')
-    end
+  # Player_turn functionality
+  def player_turn
+   
   end
 
   def player_choice(player, symbol)
