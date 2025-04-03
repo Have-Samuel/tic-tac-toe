@@ -46,6 +46,7 @@ class Game
     # Loop until the user input in valid - has space, btn the coordinates are between 0 and 2
     # and the coordinates are not already taken on the board
     until input.include?(' ') && coord_one.between?(0, 2) && coord_two.between?(0, 2) && @board[coord_one][coord_two] == ' '
+      # @board[coord_one][coord_two] == ' ' => Checks whether the coordinates are still empty
       puts 'Invalid input. Please enter your coordinates separated by a space (row column):'
       input = gets.chomp
       input_array = input.split
