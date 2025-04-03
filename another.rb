@@ -16,7 +16,7 @@ class Game
     @player_one_name = gets.chomp
     puts 'Player 2, please enter your name:'
     @player_two_name = gets.chomp
-    @board = Array.new(3) { Array.new(3, ' ') }
+    @board = Array.new(3) { Array.new(3, '_') }
   end
 
   # Blank board showing in the console
@@ -30,9 +30,9 @@ class Game
 
   def player_turn(turn)
     if turn.odd?
-      player_choice(@player_one_name, '0')
+      player_choice(@player_one_name, 'X')
     else
-      player_choice(@player_two_name, 'X')
+      player_choice(@player_two_name, 'O')
     end
   end
 
