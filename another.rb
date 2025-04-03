@@ -1,10 +1,18 @@
 class Game
+  # Instance variables are prefixed with @
+  @player_one_name = ''
+  @player_two_name = ''
+  @board = []
+  # Turn count is used to determine the winner
+  # The game ends when the turn count reaches 10.
+  # display the turn count in the console
   @turn_count = 1
   @winner = ''
 
   def initialize
     puts 'Welcome to Tic Tac Toe!'
     puts 'Player 1, please enter your name:'
+    # Still with the @ symbol, but not an instance variable, these are class variables
     @player_one_name = gets.chomp
     puts 'Player 2, please enter your name:'
     @player_two_name = gets.chomp
@@ -22,21 +30,22 @@ class Game
 
   def player_turn(turn)
     if turn.odd?
-      player_choice(@player_one_name, 'X')
+      player_choice(@player_one_name, '0')
     else
-      player_choice(@player_two_name, 'O')
+      player_choice(@player_two_name, 'X')
     end
   end
 
   def player_choice(player, symbol)
-    puts "#{player} Please enter your coordinatesseperated by a space (row column):"
+    puts "#{player} Please enter your coordinate seperated by a space (row column):"
     input = gets.chomp
     input_array = input.split
     coord_one = input_array[0].to_i
     coord_two = input_array[1].to_i
 
-    # Loop until the user input in valid - has space, btn 0 and 2, board slot is free
-    until input.length == 2 && input_array.all? { |i| i.to_i.between?(0, 2) }
+    # Loop until the user input in valid - has space, btn the coordinates are between 0 and 2
+    # and the coordinates are not already taken on the board
+    until input.include?(' ') && coord_one.between?(0, 2) && coord_two.between?(0, 2) && @board[coord_one][coord_two] == ' '
       puts 'Invalid input. Please enter your coordinates separated by a space (row column):'
       input = gets.chomp
       input_array = input.split
@@ -98,6 +107,7 @@ class Game
     end
 
     def declare_result(symbol)
+      # Another way using lambda
       case symbol
       when '0'
         puts "#{@player_one_name} wins the game!"
@@ -113,7 +123,8 @@ class Game
       puts 'Here is your empty battlefield:'
       display_board(@board)
 
-      until @turn_count == 10
+      until @player_one_name == 'X' && @player_two_name == 'O'
+        puts "\r\n"
         player_turn(@turn_count)
         three_across
         three_down
