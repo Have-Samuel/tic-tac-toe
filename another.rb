@@ -1,11 +1,4 @@
 class Game
-  # Instance variables are prefixed with @
-  @player_one_name = ''
-  @player_two_name = ''
-  @board = []
-  # Turn count is used to determine the winner
-  # The game ends when the turn count reaches 10.
-  # display the turn count in the console
   @turn_count = 1
   @winner = ''
 
@@ -96,25 +89,25 @@ class Game
   # Check 3 diagonal
   def three_diagonal
     center_val = @board[1][1]
-    if %w[X O].include?(center_val)
-      if @board[0][0] == center_val && @board[2][2] == center_val
-        @winner = @player_one_name if center_val == 'X'
-        @winner = @player_two_name if center_val == 'O'
-        @turn_count = 10
-      elsif @board[0][2] == center_val && @board[2][0] == center_val
-        @winner = @player_one_name if center_val == 'X'
-        @winner = @player_two_name if center_val == 'O'
-        @turn_count = 10
-      end
+    return unless %w[X O].include?(center_val)
+
+    if @board[0][0] == center_val && @board[2][2] == center_val
+      @winner = @player_one_name if center_val == 'X'
+      @winner = @player_two_name if center_val == 'O'
+      @turn_count = 10
+    elsif @board[0][2] == center_val && @board[2][0] == center_val
+      @winner = @player_one_name if center_val == 'O'
+      @winner = @player_two_name if center_val == 'X'
+      @turn_count = 10
     end
   end
 
   def declare_result(symbol)
     # Another way using lambda
     case symbol
-    when '0'
+    when 'O'
       puts "#{@player_one_name} wins the game!"
-    when '1'
+    when 'X'
       puts "#{@player_two_name} wins the game!"
     else
       puts "It's a draw!"
@@ -126,7 +119,7 @@ class Game
     puts 'Here is your empty battlefield:'
     display_board(@board)
 
-    until @player_one_name == 'X' && @player_two_name == 'O'
+    until @player_one_name == 'O' && @player_two_name == 'X'
       puts "\r\n"
       player_turn(@turn_count)
       three_across
