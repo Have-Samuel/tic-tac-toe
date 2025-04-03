@@ -106,35 +106,35 @@ class Game
         @turn_count = 10
       end
     end
+  end
 
-    def declare_result(symbol)
-      # Another way using lambda
-      case symbol
-      when '0'
-        puts "#{@player_one_name} wins the game!"
-      when '1'
-        puts "#{@player_two_name} wins the game!"
-      else
-        puts "It's a draw!"
-      end
+  def declare_result(symbol)
+    # Another way using lambda
+    case symbol
+    when '0'
+      puts "#{@player_one_name} wins the game!"
+    when '1'
+      puts "#{@player_two_name} wins the game!"
+    else
+      puts "It's a draw!"
     end
+  end
 
-    def play_game
+  def play_game
+    puts "\r\n"
+    puts 'Here is your empty battlefield:'
+    display_board(@board)
+
+    until @player_one_name == 'X' && @player_two_name == 'O'
       puts "\r\n"
-      puts 'Here is your empty battlefield:'
+      player_turn(@turn_count)
+      three_across
+      three_down
+      three_diagonal
       display_board(@board)
-
-      until @player_one_name == 'X' && @player_two_name == 'O'
-        puts "\r\n"
-        player_turn(@turn_count)
-        three_across
-        three_down
-        three_diagonal
-        display_board(@board)
-      end
-
-      declare_result(@winner)
     end
+
+    declare_result(@winner)
   end
 end
 
