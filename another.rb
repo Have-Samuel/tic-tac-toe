@@ -1,6 +1,6 @@
 class Game
-  @turn_count = 1
-  @winner = ''
+  @@turn_count = 1
+  @@winner = ''
 
   def initialize
     puts 'Welcome to Tic Tac Toe!'
@@ -22,27 +22,16 @@ class Game
   end
 
   # Player_turn functionality
-  def player_turn(turn_count)
-    if turn_count.odd?
+  def player_turn(turn)
+    if turn
       player_choice(@player_one_name, 'O')
     else
       player_choice(@player_two_name, 'X')
     end
   end
 
-  # Why does the odd? method cause a nomethod error?
-  # The odd? method is a method of the Integer class, not the Game class.
-  # The odd? method is used to determine if a number is odd or even.
-  # It returns true if the number is odd and false if it is even.
-  # In this case, we are using it to determine which player's turn it is.
-  # If the turn count is odd, it's player one's turn (O), otherwise it's player two's turn (X).
-  # The error occurs because the odd? method is being called on the instance variable @turn_count,
-  # which is an instance variable of the Game class, not an Integer.
-  # To fix this, we need to call odd? on the Integer value of @turn_count, eg @turn_count.odd?
-  # Player_choice functionality
-
   def player_choice(player, symbol)
-    puts "#{player} Please enter your coordinate seperated by a space (row column):"
+    puts "#{player}, Please enter your coordinate seperated by a space:"
     input = gets.chomp
     input_array = input.split
     coord_one = input_array[0].to_i
@@ -50,13 +39,13 @@ class Game
 
     # Loop until the user input in valid - has space, btn the coordinates are between 0 and 2
     # and the coordinates are not already taken on the board
-    until input.include?(' ') && coord_one.between?(0, 2) && coord_two.between?(0, 2) && @board[coord_one][coord_two] == ' '
+    until input.include?(' ') && coord_one.between?(0, 2) && coord_two.between?(0, 2) && @board[coord_one][coord_two] == '_'
       # @board[coord_one][coord_two] == ' ' => Checks whether the coordinates are still empty
-      puts 'Invalid input. Please enter your coordinates separated by a space (row column):'
+      puts 'Invalid input. Please enter your coordinates for an empty space in the grid:'
       input = gets.chomp
       input_array = input.split
-      input_array[0].to_i
-      input_array[1].to_i
+      coord_one = input_array[0].to_i
+      coord_two = input_array[1].to_i
     end
 
     add_to_board(coord_one, coord_two, symbol)
@@ -64,7 +53,7 @@ class Game
 
   def add_to_board(coord_one, coord_two, symbol)
     @board[coord_one][coord_two] = symbol
-    @turn_count += 1
+    @@turn_count += 1
     # display_board(@board)
     # check_winner(symbol)
   end
@@ -73,11 +62,11 @@ class Game
   def three_across
     @board.each do |i|
       if i.all? { |j| j == 'X' }
-        @winner = @player_one_name
-        @turn_count = 10
+        @@winner = @player_one_name
+        @@turn_count = 10
       elsif i.all? { |j| j == 'O' }
-        @winner = @player_two_name
-        @turn_count = 10
+        @@winner = @player_two_name
+        @@turn_count = 10
       end
     end
   end
@@ -88,11 +77,11 @@ class Game
     # Flatten the board and check if any of the columns have 3 in a row
     flat.each_with_index do |v, i|
       if v == 'X' && flat[i + 3] == 'X' && flat[i + 6] == 'X'
-        @winner = @player_one_name
-        @turn_count = 10
+        @@winner = @player_one_name
+        @@turn_count = 10
       elsif v == 'O' && flat[i + 3] == 'O' && flat[i + 6] == 'O'
-        @winner = @player_two_name
-        @turn_count = 10
+        @@winner = @player_two_name
+        @@turn_count = 10
       end
     end
   end
@@ -103,13 +92,13 @@ class Game
     return unless %w[X O].include?(center_val)
 
     if @board[0][0] == center_val && @board[2][2] == center_val
-      @winner = @player_one_name if center_val == 'X'
-      @winner = @player_two_name if center_val == 'O'
-      @turn_count = 10
+      @@winner = @player_one_name if center_val == 'X'
+      @@winner = @player_two_name if center_val == 'O'
+      @@turn_count = 10
     elsif @board[0][2] == center_val && @board[2][0] == center_val
-      @winner = @player_one_name if center_val == 'O'
-      @winner = @player_two_name if center_val == 'X'
-      @turn_count = 10
+      @@winner = @player_one_name if center_val == 'O'
+      @@winner = @player_two_name if center_val == 'X'
+      @@turn_count = 10
     end
   end
 
@@ -132,14 +121,14 @@ class Game
 
     until @player_one_name == 'O' && @player_two_name == 'X'
       puts "\r\n"
-      player_turn(@turn_count)
+      player_turn(@@turn_count)
       three_across
       three_down
       three_diagonal
       display_board(@board)
     end
 
-    declare_result(@winner)
+    declare_result(@@winner)
   end
 end
 
