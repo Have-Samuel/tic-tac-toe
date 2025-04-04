@@ -22,13 +22,24 @@ class Game
   end
 
   # Player_turn functionality
-  def player_turn(turn)
-    if turn.odd?
+  def player_turn(turn_count)
+    if turn_count.odd?
       player_choice(@player_one_name, 'O')
     else
       player_choice(@player_two_name, 'X')
     end
   end
+
+  # Why does the odd? method cause a nomethod error?
+  # The odd? method is a method of the Integer class, not the Game class.
+  # The odd? method is used to determine if a number is odd or even.
+  # It returns true if the number is odd and false if it is even.
+  # In this case, we are using it to determine which player's turn it is.
+  # If the turn count is odd, it's player one's turn (O), otherwise it's player two's turn (X).
+  # The error occurs because the odd? method is being called on the instance variable @turn_count,
+  # which is an instance variable of the Game class, not an Integer.
+  # To fix this, we need to call odd? on the Integer value of @turn_count, eg @turn_count.odd?
+  # Player_choice functionality
 
   def player_choice(player, symbol)
     puts "#{player} Please enter your coordinate seperated by a space (row column):"
