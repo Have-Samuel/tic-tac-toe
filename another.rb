@@ -23,7 +23,7 @@ class Game
 
   # Player_turn functionality
   def player_turn(turn)
-    if turn
+    if turn.odd?
       player_choice(@player_one_name, 'O')
     else
       player_choice(@player_two_name, 'X')
@@ -121,7 +121,6 @@ class Game
     display_board(@board)
 
     until @@turn_count == 10
-      puts "\r\n"
       player_turn(@@turn_count)
       three_across
       three_down
