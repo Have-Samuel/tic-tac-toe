@@ -54,8 +54,6 @@ class Game
   def add_to_board(coord_one, coord_two, symbol)
     @board[coord_one][coord_two] = symbol
     @@turn_count += 1
-    # display_board(@board)
-    # check_winner(symbol)
   end
 
   # Check 3 across
@@ -89,15 +87,18 @@ class Game
   # Check 3 diagonal
   def three_diagonal
     center_val = @board[1][1]
+    # return unless %w[X O].include?(center_val)
     return unless %w[X O].include?(center_val)
 
     if @board[0][0] == center_val && @board[2][2] == center_val
-      @@winner = @player_one_name if center_val == 'X'
-      @@winner = @player_two_name if center_val == 'O'
+      # @@winner = @player_one_name if center_val == 'X'
+      # @@winner = @player_two_name if center_val == 'O'
+      @@winner = center_val
       @@turn_count = 10
     elsif @board[0][2] == center_val && @board[2][0] == center_val
-      @@winner = @player_one_name if center_val == 'O'
-      @@winner = @player_two_name if center_val == 'X'
+      # @@winner = @player_one_name if center_val == 'O'
+      # @@winner = @player_two_name if center_val == 'X'
+      @@winner = center_val
       @@turn_count = 10
     end
   end
