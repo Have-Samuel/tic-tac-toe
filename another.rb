@@ -90,12 +90,12 @@ class Game
     # return unless %w[X O].include?(center_val)
     return unless %w[X O].include?(center_val)
 
-    if @board[0][0] == center_val && @board[2][2] == center_val
+    if @board[0][0] && @board[2][2] == center_val
       # @@winner = @player_one_name if center_val == 'X'
       # @@winner = @player_two_name if center_val == 'O'
       @@winner = center_val
       @@turn_count = 10
-    elsif @board[0][2] == center_val && @board[2][0] == center_val
+    elsif @board[0][2] && @board[2][0] == center_val
       # @@winner = @player_one_name if center_val == 'O'
       # @@winner = @player_two_name if center_val == 'X'
       @@winner = center_val
@@ -120,7 +120,7 @@ class Game
     puts 'Here is your empty battlefield:'
     display_board(@board)
 
-    until @player_one_name == 'O' && @player_two_name == 'X'
+    until @@turn_count == 10
       puts "\r\n"
       player_turn(@@turn_count)
       three_across
